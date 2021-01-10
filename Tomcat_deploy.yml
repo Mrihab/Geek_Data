@@ -1,0 +1,41 @@
+- name: Install tomcat9
+  hosts: geek
+  become: true
+
+  tasks:
+   - name: Install Java8
+    shell: |
+       yum install java-1.8.0-openjdk-devel -y
+   
+  - name: add tomcat group
+    group:
+      name: tomcat
+
+  - name: add tomcat user
+    user:
+      name: tomcat
+      group: tomcat
+      home: /user/share/tomcat
+      createhome: no    
+
+  - name: create /opt/tomcat directory
+    file:
+      path: /opt/tomcat
+      state: directory
+      mode: 0755
+      
+  - name: download tomcat 
+    unarchive:
+      src: http://apache.cs.utah.edu/tomcat/tomcat-9/v9.0.16/bin/apache-tomcat-9.0.16.tar.gz
+      dest: /opt/tomcat 
+      remote_src: yes
+
+   - name: Start service
+      shell: |
+       sudo systemctl enable tomcat
+       sudo systemctl start tomcat
+        
+
+ 
+      
+  
