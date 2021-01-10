@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM amd64/centos
 RUN yum -y update && \
     yum install --fix-missing -y \
       curl \
